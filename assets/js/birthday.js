@@ -12,6 +12,20 @@ images.forEach(image => {
   });
 });
 
+// Play button for mobile if audio doesn't autoplay
+const playButton = document.getElementById('play-audio');
+playButton.addEventListener('click', () => {
+  audio.play();
+  playButton.style.display = 'none'; // Hide the play button after clicking
+});
+
+// Check if audio can autoplay, otherwise show play button
+audio.oncanplaythrough = function() {
+  if (audio.paused) {
+    playButton.style.display = 'inline-block';
+  }
+};
+
 // Paper Dragging Functionality
 let highestZ = 1;
 let draggedImagesCount = 0;
@@ -107,6 +121,6 @@ papers.forEach((paper) => {
 });
 
 // Delay the appearance of the drag instruction
-setTimeout(function () {
+setTimeout(function() {
   document.getElementById('drag-instruction').style.opacity = 1;
 }, 1000);
