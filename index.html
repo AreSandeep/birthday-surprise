@@ -7,36 +7,147 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <!-- Background Music -->
+  <!-- Background Song -->
   <audio id="background-music" src="assets/audio/we_dont_talk_anymore.mp3" preload="auto"></audio>
 
-  <!-- Birthday Message -->
-  <div id="birthday-box">
+  <!-- Birthday Box -->
+  <div id="birthday-box" style="opacity: 0; transform: scale(0);">
     <h1>Happy Birthday Akhil!</h1>
   </div>
 
   <!-- Drag Instruction -->
-  <p id="drag-instruction">Drag the papers to move!</p>
+  <p id="drag-instruction" style="opacity: 0;">Drag the papers to move!</p>
 
   <!-- Papers -->
   <div class="paper image">
-    <p>Once again, happy birthday! 😍</p>
+    <p>Once again happy birthday😍</p>
     <img src="assets/images/akhil6.jpg" alt="Akhil">
   </div>
+  
   <div class="paper image">
-    <p>Missing you a lot! 😍</p>
+    <p>Missing You A lot, Rah 😍</p>
     <img src="assets/images/akhil1.jpg" alt="Akhil">
   </div>
   <div class="paper image">
-    <p>Have a beautiful day!</p>
+    <p>Have a Beautiful Day</p>
     <img src="assets/images/akhil2.jpg" alt="Akhil">
   </div>
   <div class="paper image">
-    <p>You're my best friend ❤️</p>
+    <p>You're My Best Friend ❤️</p>
     <img src="assets/images/akhil5.jpg" alt="Akhil">
   </div>
 
-  <!-- Script -->
   <script src="assets/js/birthday.js"></script>
+  <script>
+    // Ensure audio plays only when an image is clicked
+    const audio = document.getElementById('background-music');
+    const images = document.querySelectorAll('.paper');
+    images.forEach(image => {
+      image.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+        }
+      });
+    });
+
+    // Paper Dragging Functionality
+    let highestZ = 1;
+    let draggedImagesCount = 0;
+
+    class Paper {
+      holdingPaper = false;
+      touchStartX = 0;
+      touchStartY = 0;
+      touchMoveX = 0;
+      touchMoveY = 0;
+      prevTouchX = 0;
+      prevTouchY = 0;
+      velX = 0;
+      velY = 0;
+      rotation = Math.random() * 30 - 15;
+      currentPaperX = 0;
+      currentPaperY = 0;
+      rotating = false;
+
+      init(paper) {
+        paper.addEventListener('mousedown', (e) => this.startDrag(e, paper));
+        paper.addEventListener('mousemove', (e) => this.moveDrag(e, paper));
+        paper.addEventListener('mouseup', () => this.endDrag(paper));
+
+        paper.addEventListener('touchstart', (e) => this.startDrag(e, paper));
+        paper.addEventListener('touchmove', (e) => this.moveDrag(e, paper));
+        paper.addEventListener('touchend', () => this.endDrag(paper));
+      }
+
+      startDrag(e, paper) {
+        e.preventDefault();
+        this.holdingPaper = true;
+        paper.style.zIndex = highestZ;
+        highestZ += 1;
+
+        if (e.type === "touchstart") {
+          this.touchStartX = e.touches[0].clientX;
+          this.touchStartY = e.touches[0].clientY;
+        } else {
+          this.touchStartX = e.clientX;
+          this.touchStartY = e.clientY;
+        }
+        this.prevTouchX = this.touchStartX;
+        this.prevTouchY = this.touchStartY;
+      }
+
+      moveDrag(e, paper) {
+        if (!this.holdingPaper) return;
+
+        e.preventDefault();
+
+        if (e.type === "touchmove") {
+          this.touchMoveX = e.touches[0].clientX;
+          this.touchMoveY = e.touches[0].clientY;
+        } else {
+          this.touchMoveX = e.clientX;
+          this.touchMoveY = e.clientY;
+        }
+
+        this.velX = this.touchMoveX - this.prevTouchX;
+        this.velY = this.touchMoveY - this.prevTouchY;
+
+        this.prevTouchX = this.touchMoveX;
+        this.prevTouchY = this.touchMoveY;
+
+        this.currentPaperX += this.velX;
+        this.currentPaperY += this.velY;
+
+        paper.style.transform = `translate(${this.currentPaperX}px, ${this.currentPaperY}px) rotate(${this.rotation}deg)`;
+      }
+
+      endDrag(paper) {
+        this.holdingPaper = false;
+        checkIfAllImagesDragged();
+      }
+    }
+
+    // Function to check if all images are dragged
+    function checkIfAllImagesDragged() {
+      draggedImagesCount++;
+      const papers = document.querySelectorAll('.paper');
+      if (draggedImagesCount === papers.length) {
+        document.getElementById('birthday-box').style.opacity = 1;
+        document.getElementById('birthday-box').style.transform = 'scale(1)';
+      }
+    }
+
+    // Initialize dragging functionality for each paper
+    const papers = document.querySelectorAll('.paper');
+    papers.forEach((paper) => {
+      const paperObject = new Paper();
+      paperObject.init(paper);
+    });
+
+    // Delay the appearance of the drag instruction
+    setTimeout(function() {
+      document.getElementById('drag-instruction').style.opacity = 1;
+    }, 1000);
+  </script>
 </body>
 </html>
