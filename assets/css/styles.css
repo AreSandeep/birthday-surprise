@@ -1,98 +1,145 @@
-/* General Styles */
+/* Background for Romantic Theme */
 body {
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: linear-gradient(to right, #f9b9d1, #f6c6d4);
-    font-family: 'Arial', sans-serif;
-    color: #ff4d4d;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(to right, #f9b9d1, #f6c6d4); /* Soft romantic gradient */
+  font-family: 'Arial', sans-serif;
+  color: #ff4d4d;
+  position: relative;
+}
+
+/* Floating flower particles */
+@keyframes floatFlowers {
+  0% {
+    transform: translateY(100vh);
+    opacity: 1;
   }
-  
-  /* Floating Flowers */
-  @keyframes floatFlowers {
-    0% {
-      transform: translateY(100vh);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-100vh);
-      opacity: 0;
-    }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
   }
-  
-  /* Birthday Box */
-  #birthday-box {
-    background-color: #ff99cc;
-    padding: 20px 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.flower {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 105, 180, 0.7); /* Light pink */
+  border-radius: 50%;
+  animation: floatFlowers 8s linear infinite;
+  z-index: 1;
+}
+
+.flower:nth-child(odd) {
+  animation-duration: 10s;
+}
+
+.flower:nth-child(even) {
+  animation-duration: 12s;
+}
+
+.flower:nth-child(3) {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 182, 193, 0.7); /* Lighter pink */
+}
+
+/* Paper elements */
+.paper {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.paper.heart {
+  width: 150px;
+  height: 150px;
+  background: #ff8c00;
+  border-radius: 50%;
+}
+
+.paper.image {
+  max-width: 300px;
+  background: #f0e68c;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+p {
+  font-size: 20px;
+  font-family: 'Comic Sans MS', sans-serif;
+  text-align: center;
+}
+
+#drag-instruction {
+  font-size: 24px;
+  font-family: 'Comic Sans MS', sans-serif;
+  text-align: center;
+  font-weight: bold;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+#birthday-box {
+  background-color: #ff99cc;
+  width: auto; /* Adjust width dynamically to fit text */
+  padding: 15px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 2%; /* Position closer to the top */
+  left: 30%; /* Center horizontally */
+  transform: translateX(-50%);
+  opacity: 0; /* Animation starts hidden */
+  animation: openBox 3s ease-in-out forwards;
+  z-index: 2;
+}
+
+@keyframes openBox {
+  0% {
     transform: scale(0);
     opacity: 0;
-    animation: showBox 3s ease-in-out forwards;
   }
-  
-  @keyframes showBox {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  h1 {
-    font-size: 50px;
-    color: #ff4d4d;
-    font-weight: bold;
-    animation: colorChange 5s infinite;
+}
+
+h1 {
+  font-size: 50px;
+  color: #ff4d4d; /* Red for romance */
+  font-weight: bold;
+  animation: colorChange 5s infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    color: #ff1493; /* Pink */
   }
-  
-  @keyframes colorChange {
-    0%, 100% {
-      color: #ff1493;
-    }
-    50% {
-      color: #ff6347;
-    }
+  25% {
+    color: #ff6347; /* Coral */
   }
-  
-  /* Drag Instruction */
-  #drag-instruction {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 20px;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+  50% {
+    color: #ff1493; /* Pink */
   }
-  
-  /* Paper Styles */
-  .paper {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    position: absolute;
-    cursor: pointer;
-    z-index: 1;
-    max-width: 300px;
-    text-align: center;
+  75% {
+    color: #ff8c00; /* Orange */
   }
-  
-  img {
-    max-width: 100%;
-    border-radius: 10px;
+  100% {
+    color: #ff1493; /* Pink */
   }
-  
-  p {
-    font-size: 18px;
-    font-family: 'Comic Sans MS', sans-serif;
-    margin-bottom: 10px;
-  }
-  
+}
