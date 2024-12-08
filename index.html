@@ -10,8 +10,8 @@
   <!-- Background Song -->
   <audio id="background-music" src="assets/audio/we_dont_talk_anymore.mp3" preload="auto"></audio>
 
-  <button id="play-audio">Play Audio</button> <!-- Button will be visible first -->
-
+  <button id="play-audio">Play Audio</button>
+  
   <!-- Birthday Box -->
   <div id="birthday-box" style="opacity: 0; transform: scale(0);">
     <h1>Happy Birthday Akhil!</h1>
@@ -58,6 +58,9 @@
       audio.play();
       playButton.style.display = 'none'; // Hide the play button after clicking
     });
+
+    // Ensure play button is visible first
+    document.getElementById('play-audio').style.display = 'inline-block';
 
     // Check if audio can autoplay, otherwise show play button
     audio.oncanplaythrough = function() {
